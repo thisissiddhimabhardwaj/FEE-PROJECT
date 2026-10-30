@@ -1,6 +1,6 @@
 import React,{useMemo,useRef,useEffect,useState,Component} from 'react';
 import {Canvas,useFrame,useThree} from '@react-three/fiber';
-import {Html} from '@react-three/drei';
+import {Html,Billboard,useTexture,useCursor} from '@react-three/drei';
 import * as THREE from 'three';
 import {Link} from 'react-router-dom';
 
@@ -39,7 +39,31 @@ function Trees(){const ref=useRef(),trunks=useRef();const trees=useMemo(()=>Arra
 function Details(){return <>{[-21,21].map(x=><mesh key={x} position={[x,-.25,29]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[19,27]}/><meshStandardMaterial color="#202e30" metalness={.65} roughness={.22}/></mesh>)}<mesh position={[-28,19,-36.85]} rotation={[Math.PI/2,0,0]}><cylinderGeometry args={[1,1,.06,32]}/><meshStandardMaterial color="#dddcd3"/></mesh><mesh position={[-28,19.3,-36.75]} rotation={[0,0,-.4]}><boxGeometry args={[.06,.8,.08]}/><meshStandardMaterial color="#343a3b"/></mesh><mesh position={[56,10,-40]}><sphereGeometry args={[5,20,12,0,Math.PI*2,0,Math.PI/2]}/><meshStandardMaterial color="#b7b7b1"/></mesh><mesh position={[-48,-.4,-52]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[34,17]}/><meshStandardMaterial color="#4a504a"/></mesh></>}
 const positions=[[-44,20,-5],[35,22,-24],[-31,12,27],[31,13,35],[0,24,-34]];
 const names=['COMMUNITY','INNOVATION','CULTURE','AFTER HOURS','ACADEMICS'];
-function FloatingPhotos({progress}){return <>{positions.map((pos,i)=><Html key={i} position={pos} center distanceFactor={80} zIndexRange={[10,1]} style={{opacity:progress.current>.7?0:1,transition:'opacity .5s'}}><a href={`/events/e${i}`} className="spatial-photo"><span>{names[i]} ↗</span><img src={`/images/${['gathering','workshop','culture','community','library'][i]}.jpg`} alt={`${names[i].toLowerCase()} demo story`}/><i/></a></Html>)}{[[[-48,2,-4],'01 / LIBRARY'],[[0,18,-7],'02 / MAIN ACADEMIC BLOCK'],[[38,2,2],'03 / STUDENT CENTRE']].map(([p,t])=><Html key={t} position={p} center distanceFactor={120} zIndexRange={[4,0]}><span className="building-label">{t}</span></Html>)}</>}
+function CampusPhoto({position,index,progress}) {
+  const texture=useTexture(`/images/${['gathering','workshop','culture','community','library'][index]}.jpg`);
+  const group=useRef(),[hovered,setHovered]=useState(false);
+  useCursor(hovered);
+  useEffect(()=>{texture.colorSpace=THREE.SRGBColorSpace;texture.needsUpdate=true},[texture]);
+  const width=7,height=width/(texture.image.width/texture.image.height);
+  useFrame(()=>{
+    // Once the camera enters the lobby, exterior photographs leave the journey.
+    group.current.visible=progress.current<.7;
+    const scale=hovered?1.06:1;
+    group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x,scale,.12));
+  });
+  return <group ref={group} position={position}>
+    <Billboard>
+      <group onPointerOver={()=>setHovered(true)} onPointerOut={()=>setHovered(false)} onClick={e=>{e.stopPropagation();window.location.assign(`/events/e${index}`)}}>
+        <mesh position={[0,0,-.035]}><planeGeometry args={[width+.25,height+.25]}/><meshBasicMaterial color="#c6cbc2" side={THREE.DoubleSide}/></mesh>
+        <mesh><planeGeometry args={[width,height]}/><meshBasicMaterial map={texture} toneMapped={false} side={THREE.DoubleSide}/></mesh>
+      </group>
+      <Html position={[0,height/2+.45,0]} center occlude distanceFactor={80} zIndexRange={[10,1]}>
+        <a href={`/events/e${index}`} className="spatial-caption">{names[index]} ↗</a>
+      </Html>
+    </Billboard>
+  </group>;
+}
+function FloatingPhotos({progress}){return <>{positions.map((position,index)=><CampusPhoto key={index} position={position} index={index} progress={progress}/>)}{[[[-48,2,-4],'01 / LIBRARY'],[[0,18,-7],'02 / MAIN ACADEMIC BLOCK'],[[38,2,2],'03 / STUDENT CENTRE']].map(([p,t])=><Html key={t} position={p} center occlude distanceFactor={120} zIndexRange={[4,0]}><span className="building-label">{t}</span></Html>)}</>}
 function Atmosphere({intro,progress}){const ref=useRef();const [points,targets]=useMemo(()=>{let a=new Float32Array(1500),b=new Float32Array(1500);for(let i=0;i<500;i++){a.set([(Math.sin(i*93)*.5)*155,3+(Math.sin(i*31)*.5+.5)*65,(Math.cos(i*74)*.5)*130],i*3);b.set([Math.sin(i*93)*26,Math.abs(Math.sin(i*31))*16,-15+Math.cos(i*74)*12],i*3)}return [a,b]},[]);useFrame(({clock})=>{const a=ref.current.geometry.attributes.position.array;const t=intro.current;for(let i=0;i<500;i++){for(let j=0;j<3;j++){a[i*3+j]=THREE.MathUtils.lerp(points[i*3+j],targets[i*3+j],t<.8?Math.sin(t*Math.PI)*.65:0)+(j===1?Math.sin(clock.elapsedTime*.2+i)*.3:0)}}ref.current.geometry.attributes.position.needsUpdate=true;ref.current.material.opacity=.3*(1-progress.current*.8)});return <points ref={ref}><bufferGeometry><bufferAttribute attach="attributes-position" args={[points.slice(),3]}/></bufferGeometry><pointsMaterial size={.14} transparent opacity={.3} color="white" sizeAttenuation/></points>}
 const path=new THREE.CatmullRomCurve3([new THREE.Vector3(73,49,86),new THREE.Vector3(30,28,64),new THREE.Vector3(4,13,39),new THREE.Vector3(0,5,14),new THREE.Vector3(0,4,-4),new THREE.Vector3(0,4,-17),new THREE.Vector3(0,4,-38)]);
 function Rig({progress,reduced,intro,skip}){const {camera}=useThree();const target=new THREE.Vector3();useFrame(({clock})=>{intro.current=skip?1:Math.min(1,clock.elapsedTime/3.4);const p=reduced?0:Math.min(.999,progress.current);const pos=path.getPointAt(p);camera.position.copy(pos);target.set(0,p>.65?4:2,-12-p*29);camera.lookAt(target);camera.fov=THREE.MathUtils.lerp(39,56,p);camera.updateProjectionMatrix()});return null}

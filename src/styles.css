@@ -43,3 +43,32 @@
 .lobby-plaque{display:block;text-align:center;white-space:nowrap;font:9px monospace;letter-spacing:1px;color:#e2e2d7;line-height:1.8}
 .lobby-plaque small{font-size:6px;color:#aeb5a4}
 @media(max-width:800px){.chapter-copy.finale{top:95px;padding:14px 18px}.chapter-copy.finale h2{font-size:30px;margin:10px 0}.chapter-copy.finale .pill{font-size:9px;padding:8px 12px}.chapter-copy.finale .eyebrow{font-size:8px}}
+
+/* Original event passage: tactile type, spatial frames, a clear path to each event. */
+.event-passage{height:100svh;min-height:720px;background:#eae8e0;color:#232922;position:relative;overflow:hidden;padding:30px 5% 0;isolation:isolate}
+.passage-meta{display:flex;justify-content:space-between;border-top:1px solid #c7cbbb;padding-top:18px;font:9px monospace;letter-spacing:1.5px;color:#757e6b;position:relative;z-index:3}
+.passage-meta>a{display:flex;gap:12px;align-items:center}
+.passage-heading{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3;padding-top:27px;pointer-events:none}
+.passage-headline{font-size:clamp(34px,3.6vw,60px);line-height:1.03;letter-spacing:-1.8px;font-weight:500}
+.elastic-word{pointer-events:auto;display:inline-block;font-family:Instrument,Georgia,serif;font-size:1.26em;line-height:1.2;font-style:italic;color:#59634d;cursor:grab;user-select:none;padding:0 20px 5px 0;touch-action:pan-y}
+.elastic-word:active{cursor:grabbing}.elastic-letter{display:inline-block;will-change:transform}.elastic-hint{font:7px monospace;letter-spacing:1.4px;color:#858e79;display:flex;align-items:center;gap:8px;margin-top:8px}
+.passage-heading>p{font-size:11px;line-height:1.9;color:#859078}.passage-heading strong{font-weight:500;color:#414f34}
+.passage-stage{position:absolute;inset:280px 0 95px;perspective:1100px;perspective-origin:50% 50%;overflow:hidden}
+.passage-stage:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(#eae8e0,transparent 15%,transparent 88%,#eae8e0)}
+.passage-world{position:absolute;inset:0;transform-style:preserve-3d}
+.passage-frame{position:absolute;top:50%;left:50%;width:320px;margin-left:-160px;margin-top:-115px;background:#f7f6f0;padding:9px;border:1px solid #c2c7b8;box-shadow:0 12px 30px #29352112;backface-visibility:hidden;will-change:transform,opacity;transform-style:preserve-3d}
+.passage-frame-image{height:188px;position:relative;overflow:hidden;background:#b8c1ab}.passage-frame-image img{height:100%;width:100%;filter:saturate(.55);transition:filter .3s,transform .4s}.passage-frame:hover img,.passage-frame:focus-visible img{filter:saturate(1);transform:scale(1.04)}
+.passage-date{position:absolute;left:9px;top:9px;padding:7px;background:#f6f5eaeF;font:8px monospace;letter-spacing:1px;text-transform:uppercase}
+.passage-open{position:absolute;right:10px;bottom:10px;color:#fff;width:30px;height:30px;border:1px solid #fffb;border-radius:50%;display:grid;place-items:center}
+.passage-caption{padding:13px 7px 10px}.passage-caption>span{font:7px monospace;letter-spacing:1.2px;color:#829071;text-transform:uppercase}.passage-caption h3{font-size:15px;line-height:1.3;margin-top:8px;letter-spacing:-.3px}
+.passage-axis{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;color:#9aa18e}.passage-axis>span{display:block;font:9px monospace;letter-spacing:5px}.passage-axis em{font-size:58px;letter-spacing:-2px;line-height:1.4;color:#4a5940}.passage-axis>svg{margin:20px auto 0;color:#879777}
+.passage-bottom{position:absolute;bottom:30px;left:5%;right:5%;border-top:1px solid #c7cbbb;display:flex;align-items:center;justify-content:space-between;padding-top:20px;z-index:4;background:#eae8e0}.passage-bottom>div{display:flex;align-items:center;gap:20px}.passage-counter{font:10px monospace;letter-spacing:2px;color:#536445}.passage-current{font-size:10px;max-width:210px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#7a896c}.passage-scroll{font:8px monospace;letter-spacing:1.3px;color:#859575;display:flex;align-items:center;gap:15px}.passage-cta{display:flex;align-items:center;gap:30px;font-size:11px}.passage-meter{position:absolute;bottom:0;left:0;right:0;height:3px;background:#d9dfd0}.passage-meter i{display:block;width:100%;height:100%;background:#61734e;transform:scaleX(0);transform-origin:left}
+@media(max-width:1100px){.passage-frame{width:270px;margin-left:-135px}.passage-frame-image{height:165px}.passage-current{display:none}}
+@media(max-width:800px),(prefers-reduced-motion:reduce){
+ .event-passage{height:auto;min-height:0;padding:30px 6% 80px}.passage-heading{padding-top:35px;display:block}.passage-headline{font-size:42px}.passage-heading>p{margin-top:20px;font-size:11px}.elastic-hint{display:none}.elastic-word{cursor:pointer}
+ .passage-stage{position:relative;inset:auto;perspective:none;overflow:visible;margin-top:35px}.passage-stage:before,.passage-axis{display:none}.passage-world{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;transform-style:flat}
+ .passage-frame{position:relative;left:auto;top:auto;width:100%;margin:0;opacity:1;transform:none;box-shadow:none;padding:7px;will-change:auto}.passage-frame-image{height:170px}.passage-caption{padding:12px 4px 8px}.passage-caption h3{font-size:13px}.passage-caption>span{font-size:6px}.passage-meta{font-size:7px;letter-spacing:1px}.passage-bottom{position:relative;bottom:auto;left:auto;right:auto;margin-top:30px}.passage-scroll,.passage-counter,.passage-meter{display:none}.passage-bottom>div{display:none}.passage-cta{font-size:12px}.passage-heading>p br{display:none}.passage-heading>p strong{display:block}
+}
+@media(max-width:430px){.passage-world{grid-template-columns:1fr;gap:25px}.passage-frame-image{height:220px}.passage-headline{font-size:38px}.passage-caption h3{font-size:16px}}
+/* Empty tunnel planes must not intercept links positioned behind their origin. */
+.passage-stage,.passage-world{pointer-events:none}.passage-frame{pointer-events:auto}

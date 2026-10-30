@@ -39,3 +39,7 @@
 .campus-sticky:not(.is-opening) .scene-index{opacity:0;pointer-events:none}
 @media(max-width:800px){.chapter-copy.visible{padding:18px;left:6%;max-width:88vw}.chapter-copy h2{font-size:40px}}
 @media(max-height:650px){.chapter-copy{top:20%}.chapter-copy h2{font-size:36px;margin:12px 0}}
+
+.lobby-plaque{display:block;text-align:center;white-space:nowrap;font:9px monospace;letter-spacing:1px;color:#e2e2d7;line-height:1.8}
+.lobby-plaque small{font-size:6px;color:#aeb5a4}
+@media(max-width:800px){.chapter-copy.finale{top:95px;padding:14px 18px}.chapter-copy.finale h2{font-size:30px;margin:10px 0}.chapter-copy.finale .pill{font-size:9px;padding:8px 12px}.chapter-copy.finale .eyebrow{font-size:8px}}

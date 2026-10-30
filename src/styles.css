@@ -72,3 +72,32 @@
 @media(max-width:430px){.passage-world{grid-template-columns:1fr;gap:25px}.passage-frame-image{height:220px}.passage-headline{font-size:38px}.passage-caption h3{font-size:16px}}
 /* Empty tunnel planes must not intercept links positioned behind their origin. */
 .passage-stage,.passage-world{pointer-events:none}.passage-frame{pointer-events:auto}
+
+/* A persistent masthead keeps the project name present throughout the journey. */
+.landing-nav{position:fixed;z-index:80;transition:height .3s,background .3s,box-shadow .3s}
+.landing-nav.is-scrolled{height:76px;background:#101410f2;backdrop-filter:blur(14px);box-shadow:0 1px 0 #ffffff14;color:#ecece4}
+.landing-nav.is-scrolled .brand{font-size:13px;letter-spacing:2px}
+#stories,#next-memory{scroll-margin-top:90px}.story-exhibition{padding-top:100px}.event-passage{padding-top:104px}.passage-stage{top:350px}
+.landing-nav.is-scrolled .mobile-menu{top:76px}
+.falling-interlude{margin-top:70px;border-top:1px solid #cbd0bf;padding-top:20px}
+.falling-label{display:flex;justify-content:space-between;gap:20px;font:7px monospace;letter-spacing:1.3px;color:#889479;line-height:1.8}
+.falling-label>span:last-child{color:#536746}
+.falling-field{display:block;position:relative;width:100%;height:270px;overflow:hidden;padding:25px 12% 0;text-align:center;font-size:clamp(25px,3vw,44px);line-height:1.45;letter-spacing:-1.1px;font-weight:500;cursor:pointer;touch-action:pan-y}
+.falling-field:disabled{opacity:1;cursor:default;color:inherit}
+.falling-word{display:inline-block;margin-right:.26em;will-change:transform;transform-origin:center;user-select:none}
+.falling-word.highlighted{font-family:Instrument,Georgia,serif;font-size:1.22em;font-style:italic;color:#687c53}
+.falling-footnote{display:block;text-align:center;font:7px monospace;letter-spacing:1.5px;color:#8b977d;padding-top:12px}
+.brand-signature{padding:0 0 85px;margin-bottom:65px;border-bottom:1px solid #ffffff24}
+.brand-signature>.eyebrow{font-size:8px;color:#a4b197}
+.final-invitation .brand-signature h2{font-family:Manrope,Arial,sans-serif;font-weight:700;font-size:clamp(50px,9vw,150px);line-height:1.02;letter-spacing:-.06em;display:flex;justify-content:center;gap:.18em;margin:38px 0 28px}
+.signature-word{display:inline-block;position:relative;padding:8px 12px}
+.signature-word>span{display:block;overflow:hidden;padding-bottom:.08em}
+.signature-word>span>span{display:inline-block;transform:translateY(110%);transition:transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--letter-delay)}
+.in-view .signature-word>span>span{transform:translateY(0)}
+.focus-corners{position:absolute;inset:0;pointer-events:none;opacity:.2;--corner-color:#d6e0c5;background:linear-gradient(var(--corner-color),var(--corner-color)) left top/16px 1px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) left top/1px 16px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) right top/16px 1px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) right top/1px 16px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) left bottom/16px 1px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) left bottom/1px 16px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) right bottom/16px 1px no-repeat,linear-gradient(var(--corner-color),var(--corner-color)) right bottom/1px 16px no-repeat}
+.in-view .focus-corners{animation:brand-focus 6s ease-in-out infinite}.signature-1 .focus-corners{animation-delay:-3s}
+.signature-caption{font:7px monospace;letter-spacing:2px;color:#96a486}
+@keyframes brand-focus{0%,45%,100%{opacity:1}50%,95%{opacity:.2}}
+@media(max-width:1100px){.final-invitation .brand-signature h2{font-size:8.5vw}}
+@media(max-width:800px){.landing-nav.is-scrolled{height:70px}.landing-nav.is-scrolled .brand{font-size:10px;letter-spacing:1.7px}.landing-nav.is-scrolled .mobile-menu{top:70px}.story-exhibition{padding-top:100px}.event-passage{padding-top:90px}.passage-stage{top:auto}.falling-interlude{margin-top:45px}.falling-label{font-size:6px;letter-spacing:1px}.falling-label>span:last-child{max-width:115px;text-align:right}.falling-field{font-size:29px;height:290px;padding:25px 7px 0;line-height:1.6}.falling-footnote{font-size:6px}.final-invitation .brand-signature h2{flex-direction:column;font-size:clamp(55px,15vw,110px);align-items:center;gap:15px;letter-spacing:-.06em}.brand-signature{padding-bottom:45px;margin-bottom:50px}.signature-word{padding:8px 15px}.signature-caption{font-size:6px;letter-spacing:1px}}
+@media(prefers-reduced-motion:reduce){.signature-word>span>span{transform:none;transition:none}.focus-corners{opacity:1}.falling-word{will-change:auto}.falling-field{height:auto;min-height:180px;padding-bottom:30px}}
